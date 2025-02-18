@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "scopeName": "source.swift.html",
+  "injectionSelector": "R:string.quoted.double",
+  "patterns": [
+    {
+      "name": "keyword.other",
+      "match": "\\b(html|head|body)\\b"
+    }
+  ],
+  "repository": {}
+}

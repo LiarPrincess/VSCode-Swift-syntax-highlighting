@@ -1,21 +1,35 @@
 {
   "name": "swift-html",
-  "displayName": "Swift+html",
-  "description": "DE",
+  "displayName": "Swift+HTML",
+  "description": "Add HTML syntax highlighting in Swift `String` literals.",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.88.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onLanguage:swift",
+    "workspaceContains:Package.swift"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "swift-html.helloWorld",
         "title": "Hello World"
+      }
+    ],
+    "grammars": [
+      {
+        "path": "./syntaxes/injection.json",
+        "scopeName": "source.swift.html",
+        "injectTo": [
+          "source.swift"
+        ],
+        "embeddedLanguages": {},
+        "tokenTypes": {}
       }
     ]
   },
@@ -26,6 +40,9 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src",
     "test": "vscode-test"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
     "@types/vscode": "^1.97.0",
