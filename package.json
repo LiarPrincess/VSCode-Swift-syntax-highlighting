@@ -15,12 +15,6 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "swift-html.helloWorld",
-        "title": "Hello World"
-      }
-    ],
     "grammars": [
       {
         "path": "./syntaxes/injection.json",
@@ -46,13 +40,10 @@
   },
   "devDependencies": {
     "@types/vscode": "^1.97.0",
-    "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
     "eslint": "^9.19.0",
-    "typescript": "^5.7.3",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "typescript": "^5.7.3"
   }
 }
