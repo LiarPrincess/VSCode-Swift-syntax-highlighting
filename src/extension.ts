@@ -24,20 +24,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   }
 
   // Override the 'middleware.provideDocumentSemanticTokens' in the official Swift
-  // extension to remove the 'tokenType' from all of the 'tokenType_string'.
+  // extension to remove the 'tokenType' from all of the 'String' literals.
   // This way the TextMate grammar (with our 'syntaxes/injection.json') will take over.
-  //
-  // Alternatives:
-  //
-  // - use the 'vscode.languages.registerDocumentSemanticTokensProvider'
-  //   This will fight with the official Swift extension as both would have
-  //   the same 'languages.match' score.
-  //   https://vscode-api.js.org/interfaces/vscode.DocumentSemanticTokensProvider.html
-  //
-  // - create our own 'vscode-languageclient.LanguageClient'
-  //   This would entail writing our own client for the SwiftLSP and then wiring
-  //   the delegation to the official extension for all of the features we have
-  //   not implemented. This is not a practical solution.
   await workspaceContext.languageClientManager.useLanguageClient(async (client, _) => {
     const middleware = client.middleware;
     const original = middleware.provideDocumentSemanticTokens;

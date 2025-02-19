@@ -1,71 +1,31 @@
-# swift-html README
-
-This is the README for your extension "swift-html". After writing up a brief description, we recommend including the following sections.
+# Swift+HTML
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Add HTML syntax highlighting in Swift `String` literals.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+The official Swift extension ([swiftlang.swift-vscode](https://marketplace.visualstudio.com/items?itemName=swiftlang.swift-vscode)) is not required, as VSCode has its own syntax highlighting engine, but you probably want it anyway.
 
-## Extension Settings
+## How does it work?
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension adds:
 
-For example:
+- HTML injection grammar (`syntaxes/injection.json`) that adds HTML syntax highlighting inside the Swift `String` literals. We cannot use a simple `"include": "text.html.base"` because the `String` literals are already marked as `String` (yellow in the [Dracula theme](https://draculatheme.com/)). Instead we modify [the official HTML grammar](https://github.com/microsoft/vscode/tree/main/extensions/html/syntaxes) to revert the highlight back to “normal” text (white in the [Dracula theme](https://draculatheme.com/)).
 
-This extension contributes the following settings:
+- Extension that overrides the `middleware.provideDocumentSemanticTokens` in the official Swift extension to remove the `tokenType` from all of the `String` literals. This way the TextMate grammar (with our `syntaxes/injection.json`) will take over.
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Alternatives:
+
+- Remove the `String` tokens, so that the `SemanticTokens` only contain the relevant highlights.
+  - This requires recalculation of [`deltaLine/deltaStart`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens) for all of the tokens. Doable, but not easy.
+  - This extension strives to be “0 cost” and token removal means an array allocation via `vscode.SemanticTokensBuilder`.
+
+- Use the [`vscode.languages.registerDocumentSemanticTokensProvider`](https://vscode-api.js.org/interfaces/vscode.DocumentSemanticTokensProvider.html) - this will fight with the official Swift extension as both would have the same `languages.match` score.
+
+- Create our own `vscode-languageclient.LanguageClient` - this would entail writing our own client for the SwiftLSP and then wiring the delegation to the official extension for all of the features we have not implemented. This is not a practical solution.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+None.

@@ -4,7 +4,7 @@
 export const tokenType_string = 18;
 
 /**
- * This will remove the tokenType.
+ * This will remove the `tokenType`.
  */
 export const tokenType_unassigned = 666;
 
