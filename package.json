@@ -17,22 +17,8 @@
   "contributes": {
     "grammars": [
       {
-        "path": "./syntaxes/injection.block.json",
-        "scopeName": "injection.block.swift-html",
-        "injectTo": [
-          "source.swift"
-        ]
-      },
-      {
         "path": "./syntaxes/injection.block.raw.json",
         "scopeName": "injection.block.raw.swift-html",
-        "injectTo": [
-          "source.swift"
-        ]
-      },
-      {
-        "path": "./syntaxes/injection.single-line.json",
-        "scopeName": "injection.single-line.swift-html",
         "injectTo": [
           "source.swift"
         ]
