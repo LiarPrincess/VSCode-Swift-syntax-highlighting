@@ -1,0 +1,14 @@
+{
+  "scopeName": "injection.block.swift-html",
+  "injectionSelector": "R:string.quoted.double.block.swift",
+  "patterns": [
+    {
+      "comment":"'begin' is back reference, 'end' is forward reference",
+      "name": "punctuation.section.embedded.begin.jsx",
+      "begin": "(?<=\"\"\")",
+      "end": "(?=\"\"\"#*)",
+      "patterns": [ { "include": "text.html.basic" } ]
+    }
+  ],
+  "repository": { }
+}

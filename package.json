@@ -17,13 +17,32 @@
   "contributes": {
     "grammars": [
       {
-        "path": "./syntaxes/injection.json",
-        "scopeName": "source.swift.html",
+        "path": "./syntaxes/injection.block.json",
+        "scopeName": "injection.block.swift-html",
         "injectTo": [
           "source.swift"
-        ],
-        "embeddedLanguages": {},
-        "tokenTypes": {}
+        ]
+      },
+      {
+        "path": "./syntaxes/injection.block.raw.json",
+        "scopeName": "injection.block.raw.swift-html",
+        "injectTo": [
+          "source.swift"
+        ]
+      },
+      {
+        "path": "./syntaxes/injection.single-line.json",
+        "scopeName": "injection.single-line.swift-html",
+        "injectTo": [
+          "source.swift"
+        ]
+      },
+      {
+        "path": "./syntaxes/injection.single-line.raw.json",
+        "scopeName": "injection.single-line.raw.swift-html",
+        "injectTo": [
+          "source.swift"
+        ]
       }
     ]
   },
