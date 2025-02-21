@@ -14,38 +14,65 @@
   "injectionSelector": "L:source -comment -string.quoted.double",
   "patterns": [
     {
-      "comment": "Multiline HTML starting with # or ##.",
-      "name": "meta.embedded.block.raw.swift",
-      "begin": "(##?)\"\"\"",
+      "comment": "Multiline SQL starting with ###.",
+      "name": "meta.embedded.block.sql.swift",
+      "begin": "(###)\"\"\"",
       "end": "\"\"\"\\1(#*)",
-      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.swift-html" } },
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.swift" } },
       "endCaptures": {
-        "0": { "name": "punctuation.definition.string.end.swift-html" },
-        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift-html" }
+        "0": { "name": "punctuation.definition.sql.end.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
       },
       "patterns": [
-        {
-          "comment": "Prevent illegal input after the opening quotes.",
-          "name": "invalid.illegal.content-after-opening-delimiter.swift-html",
-          "match": "\\G.+(?=\"\"\")|\\G.+"
-        },
+        { "include": "#no-illegal-input-after-triple-quote" },
+        { "include": "#sql-guts" }
+      ]
+    },
+    {
+      "comment": "Multiline HTML starting with # or ##.",
+      "name": "meta.embedded.block.html.swift",
+      "begin": "(##?)\"\"\"",
+      "end": "\"\"\"\\1(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.html.begin.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.html.end.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [
+        { "include": "#no-illegal-input-after-triple-quote" },
         { "include": "#html-guts" }
       ]
     },
     {
+      "comment": "Single line SQL starting with ###.",
+      "name": "meta.embedded.single-line.html.swift",
+      "begin": "(###)\"",
+      "end": "\"\\1(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.raw.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.sql.end.raw.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [ { "include": "#sql-guts" } ]
+    },
+    {
       "comment": "Single line HTML starting with # or ##.",
-      "name": "meta.embedded.single-line.raw.swift",
+      "name": "meta.embedded.single-line.html.swift",
       "begin": "(##?)\"",
       "end": "\"\\1(#*)",
-      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.raw.swift-html" } },
+      "beginCaptures": { "0": { "name": "punctuation.definition.html.begin.raw.swift" } },
       "endCaptures": {
-        "0": { "name": "punctuation.definition.string.end.raw.swift-html" },
-        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift-html" }
+        "0": { "name": "punctuation.definition.html.end.raw.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
       },
       "patterns": [ { "include": "#html-guts" } ]
     }
   ],
   "repository": {
+    "no-illegal-input-after-triple-quote": {
+      "name": "invalid.illegal.content-after-opening-delimiter.swift",
+      "match": "\\G.+(?=\"\"\")|\\G.+"
+    },
     "html-guts": {
       "patterns": [
         {
@@ -55,6 +82,18 @@
         {
           "comment": "The whole HTML grammar.",
           "include": "text.html.basic"
+        }
+      ]
+    },
+    "sql-guts": {
+      "patterns": [
+        {
+          "comment": "\\#(variable)",
+          "include": "source.swift#literals-string-raw-string-guts"
+        },
+        {
+          "comment": "The whole SQL grammar.",
+          "include": "source.sql"
         }
       ]
     }
