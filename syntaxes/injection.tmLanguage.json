@@ -1,0 +1,62 @@
+{
+  "information_for_contributors": [
+    "Based on https://github.com/microsoft/vscode/blob/main/extensions/swift/syntaxes/swift.tmLanguage.json",
+    "",
+    "Modified 'literals-string' section:",
+    "- changed 'name: string.quoted.double.*' -> 'name: meta.embedded.*' to prevent yellow foreground.",
+    "- changed '#literals-string-raw-string-guts' -> 'source.swift#literals-string-raw-string-guts'.",
+    "- added the 'include: text.html.basic' to get HTML syntax highlighting.",
+    "",
+    "Use this extension for formatting:",
+    "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter"
+  ],
+  "scopeName": "injection.swift",
+  "injectionSelector": "L:source -comment -string.quoted.double",
+  "patterns": [
+    {
+      "comment": "Multiline HTML starting with # or ##.",
+      "name": "meta.embedded.block.raw.swift",
+      "begin": "(##?)\"\"\"",
+      "end": "\"\"\"\\1(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.swift-html" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.swift-html" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift-html" }
+      },
+      "patterns": [
+        {
+          "comment": "Prevent illegal input after the opening quotes.",
+          "name": "invalid.illegal.content-after-opening-delimiter.swift-html",
+          "match": "\\G.+(?=\"\"\")|\\G.+"
+        },
+        { "include": "#html-guts" }
+      ]
+    },
+    {
+      "comment": "Single line HTML starting with # or ##.",
+      "name": "meta.embedded.single-line.raw.swift",
+      "begin": "(##?)\"",
+      "end": "\"\\1(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.raw.swift-html" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.raw.swift-html" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift-html" }
+      },
+      "patterns": [ { "include": "#html-guts" } ]
+    }
+  ],
+  "repository": {
+    "html-guts": {
+      "patterns": [
+        {
+          "comment": "\\#(variable)",
+          "include": "source.swift#literals-string-raw-string-guts"
+        },
+        {
+          "comment": "The whole HTML grammar.",
+          "include": "text.html.basic"
+        }
+      ]
+    }
+  }
+}

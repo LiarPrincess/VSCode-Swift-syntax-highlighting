@@ -17,18 +17,16 @@
   "contributes": {
     "grammars": [
       {
-        "path": "./syntaxes/injection.block.raw.json",
-        "scopeName": "injection.block.raw.swift-html",
+        "path": "./syntaxes/injection.tmLanguage.json",
+        "scopeName": "injection.swift",
         "injectTo": [
           "source.swift"
-        ]
-      },
-      {
-        "path": "./syntaxes/injection.single-line.raw.json",
-        "scopeName": "injection.single-line.raw.swift-html",
-        "injectTo": [
-          "source.swift"
-        ]
+        ],
+        "embeddedLanguages": {
+          "text.html": "html",
+          "source.css": "css",
+          "source.js": "javascript"
+        }
       }
     ]
   },
