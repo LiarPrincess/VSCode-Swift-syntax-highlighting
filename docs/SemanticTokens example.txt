@@ -1,0 +1,107 @@
+// Tip: you can use Swift syntax highlighting in this file!
+
+//Δ line|Δ start|length|Type           |Modifiers
+//     0|      0|     6|keyword        |0 import
+//     0|      7|    10|identifier     |0 Foundation
+import Foundation
+//     1|      0|     6|keyword        |0 import
+//     0|      7|     7|identifier     |0 HTMLKit
+import HTMLKit
+
+//Δ line|Δ start|length|Type           |Modifiers
+//     2|      0|     6|keyword        |0 struct
+//     0|      7|     4|identifier     |0 User
+struct User {
+//     1|      2|     3|keyword        |0   let
+//     0|      4|     4|identifier     |0   name
+//     0|      6|     6|struct         |512 String
+  let name: String
+//     1|      2|     3|keyword        |0   let
+//     0|      4|     9|identifier     |0   avatarURL
+//     0|     11|     6|struct         |512 String
+  let avatarURL: String
+}
+
+//Δ line|Δ start|length|Type           |Modifiers
+//     3|      0|     5|modifier       |0 @html
+@html
+//     1|      0|     7|keyword        |0   private
+//     0|      8|     4|keyword        |0   func
+//     0|      5|     6|identifier     |0   layout
+//     0|      7|     5|function       |0   title
+//     0|      7|     6|struct         |512 String
+//     0|      8|     4|function       |0   user
+//     0|      6|     4|struct         |0   User
+//     0|      7|     4|function       |0   body
+//     0|      6|     4|interface      |0   HTML
+//     0|      9|     4|interface      |0   HTML
+private func layout(title: String, user: User?, body: HTML) -> HTML {
+
+//     1|      2|     3|keyword        |0
+//     0|      4|     7|identifier     |0
+//     0|     10|     3|identifier     |0
+//     0|      4|     4|function       |0
+//     0|      6|     4|identifier     |0
+  let navHtml = nav(user: user)
+
+//     1|      2|     3|keyword        |0
+//     0|      4|     3|identifier     |0
+//     0|      6|    13|string         |0
+  let xxx = "<p>BODY</p>"
+
+//     1|      2|     3|keyword        |0
+//     0|      4|     4|identifier     |0
+//     0|      8|    13|string         |0
+  let xxx2 = #"<p>BODY</p>"#
+
+//     1|      2|     3|keyword        |0
+//     0|      4|     4|identifier     |0
+//     0|      8|     3|string         |0
+//     1|      4|    11|string         |0
+//     1|      4|     3|string         |0
+  let xxx2 = #"""
+    <p>BODY</p>
+    """#
+
+//Δ line|Δ start|length|Type           |Modifiers
+//     2|      2|     6|keyword        |0 return
+//     0|      7|     3|string         |0 """
+//     1|      4|    15|string         |0 <!DOCTYPE html>
+//     1|      4|    16|string         |0 <html lang="en">
+//     1|      4|     6|string         |0 <head>
+//     1|      4|    24|string         |0 <meta charset="UTF-8">
+//     1|      4|    72|string         |0 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//     1|      4|     9|string         |0 <title>             FROM THE 2ND COLUMN | LENGTH OK
+//     0|     11|     5|identifier     |0 \(title)            FROM THE 2ND COLUMN | LENGTH ONLY INNER PART
+//     0|      6|    19|string         |0 AFTER_TITLE</title> LENGTH_OK
+//     1|      4|     7|string         |0 </head>
+//     1|      4|     6|string         |0 <body>
+//     1|      4|    35|string         |0 <!-- Write your comments here -->
+//     2|      4|     6|string         |0 <!--
+//     1|      4|    26|string         |0 Write your comments here
+//     1|      4|    26|string         |0 Write your comments here
+//     1|      4|    26|string         |0 Write your comments here
+//     1|      4|     5|string         |0 -->
+//     1|      4|     9|string         |0 0214840
+//     1|      4|    28|string         |0 What the hell is going on?
+//     1|      4|    23|string         |0 <div>INSIDE_DIV</div>
+//     1|      4|     3|string         |0 <
+//     0|      5|     3|identifier     |0 \(xxx)
+//     0|      4|     3|string         |0 ></
+//     0|      5|     3|identifier     |0 \(xxx)
+//     0|      4|     1|string         |0 >
+//     1|      4|    13|string         |0 <bin></bin>
+//     1|      4|    19|string         |0 <script a="node">
+//     1|      4|    68|string         |0 document.getElementById("demo").innerHTML = "Hello JavaScript!";
+//     1|      4|    11|string         |0 </script>
+//     1|      4|     2|string         |0 INDENT FROM THE 2ND COLUMN
+//     0|      4|     7|identifier     |0 \(navHtml)
+//     1|      4|     2|string         |0 INDENT FROM THE 2ND COLUMN
+//     0|      4|     4|identifier     |0 \(body)
+//     1|      4|     7|string         |0 </body>
+//     1|      4|     7|string         |0 </html>
+//     1|      4|     3|string         |0 """
+  return #"""
+    …
+    """#
+}
