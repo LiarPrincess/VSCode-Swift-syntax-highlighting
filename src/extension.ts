@@ -6,61 +6,83 @@ import { DocumentSemanticsTokensSignature } from "vscode-languageclient";
 // MARK: Activate
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
+  const out = vscode.window.createOutputChannel("Swift + HTML", "Swift");
+
+  out.appendLine("Activating the extension.");
+  out.appendLine(`Looking for the official Swift extension: ${SwiftExtension.id}.`);
   const swiftExtension = vscode.extensions.getExtension(SwiftExtension.id);
 
   if (swiftExtension === undefined) {
+    out.appendLine("[FAIL] Unable to find the official Swift extension.");
     return;
   }
 
   if (!swiftExtension.isActive) {
-    await swiftExtension.activate();
+    try {
+      out.appendLine("Activating the official Swift extension.");
+      await swiftExtension.activate();
+    } catch (error) {
+      out.appendLine(`[FAIL] Error when activating the official Swift extension: ${error}.`);
+      throw error;
+    }
   }
 
+  out.appendLine("Obtaining the official Swift extension API.");
   const swiftExtensionApi: SwiftExtension.Api = swiftExtension.exports;
   const workspaceContext = swiftExtensionApi.workspaceContext;
 
   if (workspaceContext === undefined) {
+    out.appendLine("[FAIL] Unable to obtain the 'workspaceContext' from the official Swift extension.");
     return;
   }
 
-  // Override the 'middleware.provideDocumentSemanticTokens' in the official Swift
-  // extension to remove the 'tokenType' from all of the 'String' literals.
-  // This way the TextMate grammar (with our 'syntaxes/injection.json') will take over.
-  await workspaceContext.languageClientManager.useLanguageClient(async (client, _) => {
-    const middleware = client.middleware;
-    const original = middleware.provideDocumentSemanticTokens;
+  out.appendLine("Overriding the 'middleware.provideDocumentSemanticTokens' in the official Swift extension.");
 
-    middleware.provideDocumentSemanticTokens = async (
-      document: vscode.TextDocument,
-      token: vscode.CancellationToken,
-      next: DocumentSemanticsTokensSignature
-    ): Promise<vscode.SemanticTokens | undefined | null> => {
-      let result: vscode.SemanticTokens | undefined | null;
+  try {
+    // Override the 'middleware.provideDocumentSemanticTokens' in the official Swift
+    // extension to remove the 'tokenType' from all of the 'String' literals.
+    // This way the TextMate grammar (with our 'syntaxes/injection.json') will take over.
+    await workspaceContext.languageClientManager.useLanguageClient(async (client, _) => {
+      const middleware = client.middleware;
+      const original = middleware.provideDocumentSemanticTokens;
 
-      if (original !== undefined) {
-        result = await original(document, token, next);
-      } else {
-        // This will call the SwiftLSP with 'textDocument/semanticTokens/full'.
-        result = await next(document, token);
-      }
+      middleware.provideDocumentSemanticTokens = async (
+        document: vscode.TextDocument,
+        token: vscode.CancellationToken,
+        next: DocumentSemanticsTokensSignature
+      ): Promise<vscode.SemanticTokens | undefined | null> => {
+        let result: vscode.SemanticTokens | undefined | null;
 
-      if (result !== null && result !== undefined) {
-        // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
-        const tokenTypeOffset = 3;
-        const data = result.data;
+        if (original !== undefined) {
+          result = await original(document, token, next);
+        } else {
+          // This will call the SwiftLSP with 'textDocument/semanticTokens/full'.
+          result = await next(document, token);
+        }
 
-        for (let index = tokenTypeOffset; index < data.length; index += 5) {
-          const tokenType = data[index];
+        if (result !== null && result !== undefined) {
+          // https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
+          const tokenTypeOffset = 3;
+          const data = result.data;
 
-          if (tokenType == SwiftLSP.tokenType_string) {
-            data[index] = SwiftLSP.tokenType_unassigned;
+          for (let index = tokenTypeOffset; index < data.length; index += 5) {
+            const tokenType = data[index];
+
+            if (tokenType == SwiftLSP.tokenType_string) {
+              data[index] = SwiftLSP.tokenType_unassigned;
+            }
           }
         }
-      }
 
-      return result;
-    };
-  });
+        return result;
+      };
+    });
+  } catch (error) {
+    out.appendLine(`[FAIL] Unable to set the 'middleware.provideDocumentSemanticTokens': ${error}.`);
+    return;
+  }
+
+  out.appendLine("Extension is now active.");
 };
 
 // MARK: Deactivate
