@@ -10,6 +10,10 @@ struct User {
   let avatarURL: String
 }
 
+extension String.StringInterpolation {
+  mutating func appendInterpolation(foo: String, bar: String = "") {}
+}
+
 let globalScope = #"""
   <p>BODY</p>
   """#
@@ -33,31 +37,43 @@ private func layout(title: String, user: User?, body: String) -> String {
       <title>BEFORE_TITLE\#(title)AFTER_TITLE</title>
     </head>
     <body>
-      <!-- Write your comments here -->
-
-      <!--
-      Write your comments here
-      Write your comments here
-      Write your comments here
-      -->
-
       Example body
-      \u#{E9} - e with accent
-      \u#{65}\u{301} - e + separate accent
+      \#0\#t\#n\#r\#"\#' <!-- " does not need to be escaped in """ string -->
+      \#u{E9} - e with accent
+      \#u{65}\#u{301} - e + separate accent
       0214840
 
+      <!-- Escapes -->
       &amp;
       &invalid;
 
+      <!-- Tag names -->
       <div>INSIDE_DIV</div>
-      <\(xxx)></\(xxx)>
-      <bin></bin>
+      <bin>INSIDE_BIN</bin>
+      <\(xxx)>INSIDE_XXX</\(xxx)>
+
+      <!-- Interpolation -->
+      \#(navHtml)
+      \#(body)
+      \#(foo: "abc")
+      \#(foo: "abc", bar: "def")
+      \(NO_INTERPOLATION)
+
+      <!--
+      Multiline comment
+      Multiline comment
+      Multiline comment
+      -->
+
+      <style>
+        body {
+          color: white;
+          background-color: lightblue;
+        }
+      </style>
       <script a="node">
         document.getElementById("demo").innerHTML = "Hello JavaScript!";
       </script>
-      \(NO_INTERPOLATION)
-      \#(navHtml)
-      \#(body)
     </body>
     </html>
     """#

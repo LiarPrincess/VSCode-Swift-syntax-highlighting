@@ -4,7 +4,7 @@
     "",
     "Modified 'literals-string' section:",
     "- changed 'name: string.quoted.double.*' -> 'name: meta.embedded.*' to prevent yellow foreground.",
-    "- changed '#literals-string-raw-string-guts' -> 'source.swift#literals-string-raw-string-guts'.",
+    "- changed '#literals-string-raw-string-guts' -> '#guts'.",
     "- added the 'include: source.sql' to get SQL syntax highlighting.",
     "",
     "Use this extension for formatting:",
@@ -33,7 +33,7 @@
     },
     {
       "comment": "Single line SQL starting with ##, but not with ###.",
-      "name": "meta.embedded.single-line.html.swift",
+      "name": "meta.embedded.single-line.sql.swift",
       "begin": "[^#]##\"",
       "end": "\"##(#*)",
       "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.raw.swift" } },
@@ -46,27 +46,27 @@
   ],
   "repository": {
     "guts": {
-      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts'.",
+      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts' with the correct # count.",
       "patterns": [
         {
           "comment": "Special character: 0 (null), \\ (backslash), \t (tab), \n (LF), \r (CR), \" (double quote) and ' (single quote).",
-          "name": "constant.character.escape.html.swift",
+          "name": "constant.character.escape.sql.swift",
           "match": "\\\\##[0\\\\tnr\"']"
         },
         {
           "comment": "Unicode scalar value: \\u{n}, where n is a 1–8 digit hexadecimal number",
-          "name": "constant.character.escape.unicode.html.swift",
+          "name": "constant.character.escape.unicode.sql.swift",
           "match": "\\\\##u\\{[0-9a-fA-F]{1,8}\\}"
         },
         {
-          "comment": "\\#(variable)",
+          "comment": "\\##(variable)",
           "contentName": "source.swift",
-          "name": "meta.embedded.line.html.swift",
+          "name": "meta.embedded.line.sql.swift",
           "begin": "\\\\##\\(",
           "end": "(\\))",
-          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.html.swift" } },
+          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.sql.swift" } },
           "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.html.swift" },
+            "0": { "name": "punctuation.section.embedded.end.sql.swift" },
             "1": { "name": "source.swift" }
           },
           "patterns": [
