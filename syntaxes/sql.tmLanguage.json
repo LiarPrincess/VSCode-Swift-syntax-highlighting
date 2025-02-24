@@ -1,0 +1,93 @@
+{
+  "information_for_contributors": [
+    "Based on https://github.com/microsoft/vscode/blob/main/extensions/swift/syntaxes/swift.tmLanguage.json",
+    "",
+    "Modified 'literals-string' section:",
+    "- changed 'name: string.quoted.double.*' -> 'name: meta.embedded.*' to prevent yellow foreground.",
+    "- changed '#literals-string-raw-string-guts' -> 'source.swift#literals-string-raw-string-guts'.",
+    "- added the 'include: source.sql' to get SQL syntax highlighting.",
+    "",
+    "Use this extension for formatting:",
+    "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter"
+  ],
+  "scopeName": "injection.sql.swift",
+  "injectionSelector": "L:source -comment -string.quoted.double",
+  "patterns": [
+    {
+      "comment": "Multiline SQL starting with ##, but not with ###.",
+      "name": "meta.embedded.block.sql.swift",
+      "begin": "[^#]##\"\"\"",
+      "end": "\"\"\"##(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.sql.end.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [
+        {
+          "name": "invalid.illegal.content-after-opening-delimiter.swift",
+          "match": "\\G.+(?=\"\"\")|\\G.+"
+        },
+        { "include": "#guts" }
+      ]
+    },
+    {
+      "comment": "Single line SQL starting with ##, but not with ###.",
+      "name": "meta.embedded.single-line.html.swift",
+      "begin": "[^#]##\"",
+      "end": "\"##(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.raw.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.sql.end.raw.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [ { "include": "#guts" } ]
+    }
+  ],
+  "repository": {
+    "guts": {
+      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts'.",
+      "patterns": [
+        {
+          "comment": "Special character: 0 (null), \\ (backslash), \t (tab), \n (LF), \r (CR), \" (double quote) and ' (single quote).",
+          "name": "constant.character.escape.html.swift",
+          "match": "\\\\##[0\\\\tnr\"']"
+        },
+        {
+          "comment": "Unicode scalar value: \\u{n}, where n is a 1–8 digit hexadecimal number",
+          "name": "constant.character.escape.unicode.html.swift",
+          "match": "\\\\##u\\{[0-9a-fA-F]{1,8}\\}"
+        },
+        {
+          "comment": "\\#(variable)",
+          "contentName": "source.swift",
+          "name": "meta.embedded.line.html.swift",
+          "begin": "\\\\##\\(",
+          "end": "(\\))",
+          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.html.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.html.swift" },
+            "1": { "name": "source.swift" }
+          },
+          "patterns": [
+            { "include": "$base" },
+            {
+              "comment": "Nested parens",
+              "begin": "\\(",
+              "end": "\\)"
+            }
+          ]
+        },
+        {
+          "comment": "",
+          "name": "invalid.illegal.escape-not-recognized",
+          "match": "\\\\##."
+        },
+        {
+          "comment": "The whole SQL grammar.",
+          "include": "source.sql"
+        }
+      ]
+    }
+  }
+}

@@ -17,8 +17,8 @@
   "contributes": {
     "grammars": [
       {
-        "path": "./syntaxes/injection.tmLanguage.json",
-        "scopeName": "injection.swift",
+        "path": "./syntaxes/html.tmLanguage.json",
+        "scopeName": "injection.html.swift",
         "injectTo": [
           "source.swift"
         ],
@@ -26,6 +26,16 @@
           "text.html": "html",
           "source.css": "css",
           "source.js": "javascript"
+        }
+      },
+      {
+        "path": "./syntaxes/sql.tmLanguage.json",
+        "scopeName": "injection.sql.swift",
+        "injectTo": [
+          "source.swift"
+        ],
+        "embeddedLanguages": {
+          "source.sql": "sql"
         }
       }
     ]
