@@ -25,8 +25,7 @@ for (const lang of languages) {
     ["LANGUAGE_NAME", lang.name],
     ["POUNDS", lang.pounds],
     ["INJECTED_GRAMMAR_NAME", lang.injectedGrammarName],
-  ];
-
+  await copyDirectory(lang, "src");
   await copyDirectory(lang, "syntaxes");
 }
 

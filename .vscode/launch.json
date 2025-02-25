@@ -6,16 +6,38 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run Extension",
+      "name": "Run HTML",
       "type": "extensionHost",
       "request": "launch",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}"
+        "--extensionDevelopmentPath=${workspaceFolder}/extension_html"
       ],
       "outFiles": [
-        "${workspaceFolder}/out/**/*.js"
+        "${workspaceFolder}/extension_html/out/**/*.js"
       ],
-      "preLaunchTask": "${defaultBuildTask}"
+      "preLaunchTask": "Watch HTML"
+    },
+    {
+      "name": "Run SQL",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/extension_sql"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/extension_sql/out/**/*.js"
+      ],
+      "preLaunchTask": "Watch SQL"
+    },
+    {
+      "name": "Generate extensions",
+      "program": "${workspaceFolder}/generate_extensions.js",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
     }
   ]
 }
