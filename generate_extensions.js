@@ -5,12 +5,20 @@ const languages = [
   {
     name: "HTML",
     pounds: "#",
-    injectedGrammarName: "text.html.basic"
+    injectedGrammarName: "text.html.basic",
+    embeddedLanguages: {
+      "text.html": "html",
+      "source.css": "css",
+      "source.js": "javascript",
+    },
   },
   {
     name: "SQL",
     pounds: "##",
-    injectedGrammarName: "source.sql"
+    injectedGrammarName: "source.sql",
+    embeddedLanguages: {
+      "source.sql": "sql",
+    },
   }
 ];
 
@@ -25,6 +33,16 @@ for (const lang of languages) {
     ["LANGUAGE_NAME", lang.name],
     ["POUNDS", lang.pounds],
     ["INJECTED_GRAMMAR_NAME", lang.injectedGrammarName],
+    // This one is in quotes, so that the 'template/package.json' is a valid JSON!
+    ['"PACKAGE_JSON_EMBEDDED_LANGUAGES"', JSON.stringify(lang.embeddedLanguages, null, "  ")],
+    // Github
+    ["GITHUB_USERNAME", "LiarPrincess"],
+    ["GITHUB_REPOSITORY_NAME", "VSCode-Swift-syntax-highlighting"],
+  ];
+
+  await createDir(lang.extensionDir);
+  await copyFile(lang, "package.json");
+  await copyFile(lang, "tsconfig.json");
   await copyDirectory(lang, "src");
   await copyDirectory(lang, "syntaxes");
 }
