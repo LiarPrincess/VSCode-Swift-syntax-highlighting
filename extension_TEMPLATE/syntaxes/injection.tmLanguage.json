@@ -1,0 +1,93 @@
+{
+  "information_for_contributors": [
+    "Based on https://github.com/microsoft/vscode/blob/main/extensions/swift/syntaxes/swift.tmLanguage.json",
+    "",
+    "Modified 'literals-string' section:",
+    "- changed 'name: string.quoted.double.*' -> 'name: meta.embedded.*' to prevent yellow foreground.",
+    "- changed '#literals-string-raw-string-guts' -> '#guts'.",
+    "- added the 'include: INJECTED_GRAMMAR_NAME' to get LANGUAGE_NAME syntax highlighting.",
+    "",
+    "Use this extension for formatting:",
+    "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter"
+  ],
+  "scopeName": "injection.LANGUAGE_NAME_LOWER.swift",
+  "injectionSelector": "L:source -comment -string.quoted.double",
+  "patterns": [
+    {
+      "comment": "Multiline LANGUAGE_NAME starting with POUNDS, but not with POUNDS#.",
+      "name": "meta.embedded.block.LANGUAGE_NAME_LOWER.swift",
+      "begin": "[^#]POUNDS\"\"\"",
+      "end": "\"\"\"POUNDS(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.LANGUAGE_NAME_LOWER.begin.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.LANGUAGE_NAME_LOWER.end.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [
+        {
+          "name": "invalid.illegal.content-after-opening-delimiter.swift",
+          "match": "\\G.+(?=\"\"\")|\\G.+"
+        },
+        { "include": "#guts" }
+      ]
+    },
+    {
+      "comment": "Single line LANGUAGE_NAME starting with POUNDS, but not with POUNDS#.",
+      "name": "meta.embedded.single-line.LANGUAGE_NAME_LOWER.swift",
+      "begin": "[^#]POUNDS\"",
+      "end": "\"POUNDS(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.LANGUAGE_NAME_LOWER.begin.swift" } },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.LANGUAGE_NAME_LOWER.end.swift" },
+        "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
+      },
+      "patterns": [ { "include": "#guts" } ]
+    }
+  ],
+  "repository": {
+    "guts": {
+      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts', but with the correct # count.",
+      "patterns": [
+        {
+          "comment": "Special character: 0 (null), \\ (backslash), \t (tab), \n (LF), \r (CR), \" (double quote) and ' (single quote).",
+          "name": "constant.character.escape.LANGUAGE_NAME_LOWER.swift",
+          "match": "\\\\POUNDS[0\\\\tnr\"']"
+        },
+        {
+          "comment": "Unicode scalar value: \\u{n}, where n is a 1–8 digit hexadecimal number",
+          "name": "constant.character.escape.unicode.LANGUAGE_NAME_LOWER.swift",
+          "match": "\\\\POUNDSu\\{[0-9a-fA-F]{1,8}\\}"
+        },
+        {
+          "comment": "\\POUNDS(variable)",
+          "contentName": "source.swift",
+          "name": "meta.embedded.line.LANGUAGE_NAME_LOWER.swift",
+          "begin": "\\\\POUNDS\\(",
+          "end": "(\\))",
+          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.LANGUAGE_NAME_LOWER.swift" } },
+          "endCaptures": {
+            "0": { "name": "punctuation.section.embedded.end.LANGUAGE_NAME_LOWER.swift" },
+            "1": { "name": "source.swift" }
+          },
+          "patterns": [
+            { "include": "$base" },
+            {
+              "comment": "Nested parens",
+              "begin": "\\(",
+              "end": "\\)"
+            }
+          ]
+        },
+        {
+          "comment": "Invalid escape: \\POUNDSsomething",
+          "name": "invalid.illegal.escape-not-recognized",
+          "match": "\\\\POUNDS."
+        },
+        {
+          "comment": "The whole LANGUAGE_NAME grammar.",
+          "include": "INJECTED_GRAMMAR_NAME"
+        }
+      ]
+    }
+  }
+}

@@ -5,22 +5,22 @@
     "Modified 'literals-string' section:",
     "- changed 'name: string.quoted.double.*' -> 'name: meta.embedded.*' to prevent yellow foreground.",
     "- changed '#literals-string-raw-string-guts' -> '#guts'.",
-    "- added the 'include: text.html.basic' to get HTML syntax highlighting.",
+    "- added the 'include: source.sql' to get SQL syntax highlighting.",
     "",
     "Use this extension for formatting:",
     "https://marketplace.visualstudio.com/items?itemName=RedCMD.tmlanguage-syntax-highlighter"
   ],
-  "scopeName": "injection.html.swift",
+  "scopeName": "injection.sql.swift",
   "injectionSelector": "L:source -comment -string.quoted.double",
   "patterns": [
     {
-      "comment": "Multiline HTML starting with #, but not with ##.",
-      "name": "meta.embedded.block.html.swift",
-      "begin": "[^#]#\"\"\"",
-      "end": "\"\"\"#(#*)",
-      "beginCaptures": { "0": { "name": "punctuation.definition.html.begin.swift" } },
+      "comment": "Multiline SQL starting with ##, but not with ###.",
+      "name": "meta.embedded.block.sql.swift",
+      "begin": "[^#]##\"\"\"",
+      "end": "\"\"\"##(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.swift" } },
       "endCaptures": {
-        "0": { "name": "punctuation.definition.html.end.swift" },
+        "0": { "name": "punctuation.definition.sql.end.swift" },
         "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
       },
       "patterns": [
@@ -32,13 +32,13 @@
       ]
     },
     {
-      "comment": "Single line HTML starting with #, but not with ##.",
-      "name": "meta.embedded.single-line.html.swift",
-      "begin": "[^#]#\"",
-      "end": "\"#(#*)",
-      "beginCaptures": { "0": { "name": "punctuation.definition.html.begin.raw.swift" } },
+      "comment": "Single line SQL starting with ##, but not with ###.",
+      "name": "meta.embedded.single-line.sql.swift",
+      "begin": "[^#]##\"",
+      "end": "\"##(#*)",
+      "beginCaptures": { "0": { "name": "punctuation.definition.sql.begin.swift" } },
       "endCaptures": {
-        "0": { "name": "punctuation.definition.html.end.raw.swift" },
+        "0": { "name": "punctuation.definition.sql.end.swift" },
         "1": { "name": "invalid.illegal.extra-closing-delimiter.swift" }
       },
       "patterns": [ { "include": "#guts" } ]
@@ -46,27 +46,27 @@
   ],
   "repository": {
     "guts": {
-      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts' with the correct # count.",
+      "comment": "Basically: 'include: source.swift#literals-string-raw-string-guts', but with the correct # count.",
       "patterns": [
         {
           "comment": "Special character: 0 (null), \\ (backslash), \t (tab), \n (LF), \r (CR), \" (double quote) and ' (single quote).",
-          "name": "constant.character.escape.html.swift",
-          "match": "\\\\#[0\\\\tnr\"']"
+          "name": "constant.character.escape.sql.swift",
+          "match": "\\\\##[0\\\\tnr\"']"
         },
         {
           "comment": "Unicode scalar value: \\u{n}, where n is a 1–8 digit hexadecimal number",
-          "name": "constant.character.escape.unicode.html.swift",
-          "match": "\\\\#u\\{[0-9a-fA-F]{1,8}\\}"
+          "name": "constant.character.escape.unicode.sql.swift",
+          "match": "\\\\##u\\{[0-9a-fA-F]{1,8}\\}"
         },
         {
-          "comment": "\\#(variable)",
+          "comment": "\\##(variable)",
           "contentName": "source.swift",
-          "name": "meta.embedded.line.html.swift",
-          "begin": "\\\\#\\(",
+          "name": "meta.embedded.line.sql.swift",
+          "begin": "\\\\##\\(",
           "end": "(\\))",
-          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.html.swift" } },
+          "beginCaptures": { "0": { "name": "punctuation.section.embedded.begin.sql.swift" } },
           "endCaptures": {
-            "0": { "name": "punctuation.section.embedded.end.html.swift" },
+            "0": { "name": "punctuation.section.embedded.end.sql.swift" },
             "1": { "name": "source.swift" }
           },
           "patterns": [
@@ -79,13 +79,13 @@
           ]
         },
         {
-          "comment": "",
+          "comment": "Invalid escape: \\##something",
           "name": "invalid.illegal.escape-not-recognized",
-          "match": "\\\\#."
+          "match": "\\\\##."
         },
         {
-          "comment": "The whole HTML grammar.",
-          "include": "text.html.basic"
+          "comment": "The whole SQL grammar.",
+          "include": "source.sql"
         }
       ]
     }
