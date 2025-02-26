@@ -6,7 +6,7 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LiarPrincess/vscode-swift-syntax-highlighting"
+    "url": "https://github.com/LiarPrincess/VSCode-Swift-syntax-highlighting"
   },
   "sponsor": {
     "url": "https://github.com/LiarPrincess"

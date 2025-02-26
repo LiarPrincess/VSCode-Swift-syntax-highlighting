@@ -11,6 +11,7 @@ const languages = [
       "source.css": "css",
       "source.js": "javascript",
     },
+    commentExample: "<!-- $1 -->",
   },
   {
     name: "SQL",
@@ -19,6 +20,7 @@ const languages = [
     embeddedLanguages: {
       "source.sql": "sql",
     },
+    commentExample: "-- $1",
   }
 ];
 
@@ -33,6 +35,7 @@ for (const lang of languages) {
     ["LANGUAGE_NAME", lang.name],
     ["POUNDS", lang.pounds],
     ["INJECTED_GRAMMAR_NAME", lang.injectedGrammarName],
+    ["README_COMMENT_EXAMPLE", lang.commentExample],
     // This one is in quotes, so that the 'template/package.json' is a valid JSON!
     ['"PACKAGE_JSON_EMBEDDED_LANGUAGES"', JSON.stringify(lang.embeddedLanguages, null, "  ")],
     // Github
@@ -43,6 +46,10 @@ for (const lang of languages) {
   await createDir(lang.extensionDir);
   await copyFile(lang, "package.json");
   await copyFile(lang, "tsconfig.json");
+  await copyFile(lang, ".vscodeignore");
+  await copyFile(lang, "README.md");
+  await copyFile(lang, "CHANGELOG.md");
+  await copyFile(lang, "LICENSE");
   await copyDirectory(lang, "src");
   await copyDirectory(lang, "syntaxes");
 }
