@@ -33,10 +33,13 @@ for (const lang of languages) {
   lang.replacements = [
     ["LANGUAGE_NAME_LOWER", nameLower],
     ["LANGUAGE_NAME", lang.name],
+    // syntaxes/injection.tmLanguage.json
     ["POUNDS", lang.pounds],
     ["INJECTED_GRAMMAR_NAME", lang.injectedGrammarName],
+    // Readme.md
     ["README_COMMENT_EXAMPLE", lang.commentExample],
-    // This one is in quotes, so that the 'template/package.json' is a valid JSON!
+    // package.json
+    // This one is in quotes, so that the 'template/package.json' is a valid JSON.
     ['"PACKAGE_JSON_EMBEDDED_LANGUAGES"', JSON.stringify(lang.embeddedLanguages, null, "  ")],
     // Github
     ["GITHUB_USERNAME", "LiarPrincess"],
@@ -53,6 +56,14 @@ for (const lang of languages) {
   await copyDirectory(lang, "src");
   await copyDirectory(lang, "syntaxes");
 }
+
+console.log();
+console.log("Remember to:");
+console.log("- npm i");
+console.log("- add 'icon.png' - use 'extension_TEMPLATE/icon.svg' as a template");
+console.log("- add 'example.png'");
+console.log("- add custom launch/task for running your extension");
+
 
 // MARK: Copy
 
