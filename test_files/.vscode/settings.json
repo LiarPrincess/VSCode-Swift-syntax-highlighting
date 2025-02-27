@@ -1,6 +1,0 @@
-{
-  "editor.bracketPairColorization.enabled": true,
-  "emmet.includeLanguages": {
-    "swift": "html"
-  }
-}
