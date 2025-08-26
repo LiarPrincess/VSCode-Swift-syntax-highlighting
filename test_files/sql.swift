@@ -1,7 +1,5 @@
 let sql = ##"select first_name from employees"##
 
-let minSalary = 3800
-
 let sql1 = ##"""
   SELECT first_name
   ,      last_name
@@ -20,3 +18,64 @@ let sql2 = ##"""
   FROM sys.objects
   ORDER BY object_id ASC;
   """##
+
+// Slightly modified query from:
+// github.com/pointfreeco/sharing-grdb/Examples/Reminders/RemindersListDetail.swift#L139
+func fetch(_ db: Database) throws {
+  try Record
+    .fetchAll(
+      db,
+      sql: ##"""
+        SELECT [reminder].*
+        ,      group_concat([tag].[name], ',') as commaSeparatedTags
+        ,      NOT isCompleted AND coalesce([reminder].[date], date('now')) < date('now') as isPastDue
+        FROM      [reminder]
+        LEFT JOIN [reminderTag] ON [reminderTag].[reminderId] = [reminder].[id]
+        LEFT JOIN [tag]         ON [tag].[id] = [reminderTag].[tagId]
+        WHERE [reminder].[listId] = ?
+          AND \(showCompleted ? "1=1" : "NOT isCompleted")
+        GROUP BY [reminder].[id]
+        ORDER BY [reminder].[isCompleted] ASC,
+                \(ordering.queryString)
+        """##,
+      arguments: [listID]
+    )
+}
+
+// Slightly modified query from:
+// github.com/pointfreeco/sharing-grdb/Examples/Reminders/SearchReminders.swift#L116
+func fetch2(_ db: Database) throws {
+  let reminders = try LocalRequest.fetchAll(
+    db,
+    SQLRequest(
+      literal: ##"""
+        SELECT [reminder].*
+        ,      [reminderList].[id] AS reminderListID
+        ,      group_concat([tag].[name], ',') AS commaSeparatedTags
+        ,      NOT isCompleted AND coalesce([reminder].[date], date('now')) < date('now') AS isPastDue
+        FROM      [reminder]
+        LEFT JOIN [reminderList] ON [reminderList].[id] = [reminder].[listId]
+        LEFT JOIN [reminderTag]  ON [reminderTag].[reminderId] = [reminder].[id]
+        LEFT JOIN [tag]          ON [tag].[id] = [reminderTag].[tagId]
+        WHERE (
+            [reminder].[title] COLLATE NOCASE LIKE \("%\(searchText)%")
+            OR
+            [reminder].[notes] COLLATE NOCASE LIKE \("%\(searchText)%")
+          )
+          AND \(sql: showCompletedInSearchResults ? "1=1" : "NOT reminders.isCompleted")
+        GROUP BY [reminder].[id]
+        ORDER BY [reminder].[isCompleted]
+        ,        [reminder].[date]
+        """##)
+  )
+}
+
+// MARK: Data
+
+private let listID = 1
+private let minSalary = 3800
+
+struct Database {}
+struct SQLRequest { init(literal: String) {} }
+struct Record { static func fetchAll(_ db: Database, sql: String, arguments: [Int]) throws {} }
+struct LocalRequest { static func fetchAll(_ db: Database, _ request: SQLRequest) throws {} }

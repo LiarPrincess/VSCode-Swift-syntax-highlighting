@@ -6,10 +6,10 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/GITHUB_USERNAME/GITHUB_REPOSITORY_NAME"
+    "url": "GITHUB_URL"
   },
   "sponsor": {
-    "url": "https://github.com/GITHUB_USERNAME"
+    "url": "GITHUB_SPONSOR_URL"
   },
   "engines": {
     "vscode": "^1.88.0"
@@ -40,9 +40,11 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "clean": "rm -r out",
+    "build": "npm run clean; tsc",
+    "watch": "npm run clean; tsc -watch",
+    "vscode:prepublish": "npm run build",
+    "package": "npx vsce package"
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
