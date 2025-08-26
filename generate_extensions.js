@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+// This script generates the extensions from the 'extension_TEMPLATE' directory.
+
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
@@ -11,6 +15,7 @@ const languages = [
       "source.css": "css",
       "source.js": "javascript",
     },
+    exampleImageURL: "https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_html/example.png",
     commentExample: "<!-- $1 -->",
   },
   {
@@ -20,6 +25,7 @@ const languages = [
     embeddedLanguages: {
       "source.sql": "sql",
     },
+    exampleImageURL: "https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql/example.png",
     commentExample: "-- $1",
   }
 ];
@@ -37,13 +43,15 @@ for (const lang of languages) {
     ["POUNDS", lang.pounds],
     ["INJECTED_GRAMMAR_NAME", lang.injectedGrammarName],
     // Readme.md
+    ["README_EXAMPLE_IMAGE_URL", lang.exampleImageURL],
     ["README_COMMENT_EXAMPLE", lang.commentExample],
     // package.json
     // This one is in quotes, so that the 'template/package.json' is a valid JSON.
     ['"PACKAGE_JSON_EMBEDDED_LANGUAGES"', JSON.stringify(lang.embeddedLanguages, null, "  ")],
     // Github
     ["GITHUB_USERNAME", "LiarPrincess"],
-    ["GITHUB_REPOSITORY_NAME", "VSCode-Swift-syntax-highlighting"],
+    ["GITHUB_URL", "https://github.com/LiarPrincess/VSCode-Swift-syntax-highlighting"],
+    ["GITHUB_SPONSOR_URL", "https://github.com/LiarPrincess"],
   ];
 
   await createDir(lang.extensionDir);
@@ -130,6 +138,25 @@ async function readFile(path) {
  */
 async function writeFile(path, content) {
   await fs.writeFile(path, content, { encoding: "utf8" });
+}
+
+/**
+ * @param {string} path
+ * @param {string} content
+ * @returns {Promise<boolean>}
+ */
+async function canReplaceExitingFile(path, content) {
+  try {
+    const current = await readFile(path);
+    return current === content;
+  } catch (error) {
+    // File does not exist.
+    if (error.code === "ENOENT") {
+      return true;
+    }
+
+    throw error;
+  }
 }
 
 /**
