@@ -1,31 +1,57 @@
-# Swift+HTML
+VSCode extensions that add embedded language syntax highlighting to [Swift #String literals](https://github.com/swiftlang/swift-evolution/blob/main/proposals/0200-raw-string-escaping.md#expanding-delimiters).
 
-## Features
+## [Swift+SQL #](TODO)
 
-Add HTML syntax highlighting in Swift `String` literals.
+Adds SQL syntax highlighting to `#Strings`.
 
-## Requirements
+![Swift+SQL example](TODO)
 
-The official Swift extension ([swiftlang.swift-vscode](https://marketplace.visualstudio.com/items?itemName=swiftlang.swift-vscode)) is not required, as VSCode has its own syntax highlighting engine, but you probably want it anyway.
+## [Swift+SQL ##](TODO)
 
-## How does it work?
+Adds SQL syntax highlighting to `##Strings`.
 
-This extension adds:
+![Swift+SQL example](extension_sql/example.png)
 
-- HTML injection grammar (`syntaxes/injection.json`) that adds HTML syntax highlighting inside the Swift `String` literals. We cannot use a simple `"include": "text.html.base"` because the `String` literals are already marked as `String` (yellow in the [Dracula theme](https://draculatheme.com/)). Instead we modify [the official HTML grammar](https://github.com/microsoft/vscode/tree/main/extensions/html/syntaxes) to revert the highlight back to “normal” text (white in the [Dracula theme](https://draculatheme.com/)).
+## [Swift+HTML](TODO)
 
-- Extension that overrides the `middleware.provideDocumentSemanticTokens` in the official Swift extension to remove the `tokenType` from all of the `String` literals. This way the TextMate grammar (with our `syntaxes/injection.json`) will take over.
+Adds HTML syntax highlighting to `#Strings`.
 
-Alternatives:
+![Swift+SQL example](extension_html/example.png)
 
-- Remove the `String` tokens, so that the `SemanticTokens` only contain the relevant highlights.
-  - This requires recalculation of [`deltaLine/deltaStart`](https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens) for all of the tokens. Doable, but not easy.
-  - This extension strives to be “0 cost” and token removal means an array allocation via `vscode.SemanticTokensBuilder`.
+## Repository content
 
-- Use the [`vscode.languages.registerDocumentSemanticTokensProvider`](https://vscode-api.js.org/interfaces/vscode.DocumentSemanticTokensProvider.html) - this will fight with the official Swift extension as both would have the same `languages.match` score.
+- `generate_extensions.js` - use this script to generate extensions for new languages
+- `extension_sql_1_pound` - [Swift+SQL #](TODO) extension code
+- `extension_sql_2_pounds` - [Swift+SQL ##](TODO) extension code
+- `extension_html` - [Swift+HTML](TODO) extension code
+- `test_files` - testing samples for the extensions
 
-- Create our own `vscode-languageclient.LanguageClient` - this would entail writing our own client for the SwiftLSP and then wiring the delegation to the official extension for all of the features we have not implemented. This is not a practical solution.
 
-## Known Issues
+## Q&A
 
-None.
+### Why "comment" keyboard shortcut inserts a Swift comment?
+
+Pressing `⌘+/` (`Ctrl+/`) inserts a Swift comment (`//`) instead of the language specific comment (for example `-- ` for SQL). Workarounds:
+- Type it manually
+- Add a custom snippet - `⚙️ -> Snippets -> swift`:
+
+  ```json
+  "LANGUAGE_NAME_comment": {
+    "prefix": "LANGUAGE_NAME_comment",
+    "body": "COMMENT_SYNTAX"
+  },
+  ```
+
+### Can you select the `#` count?
+
+Ideally, we would have our own settings where users can select how `#` count corresponds to the highlighted language. For example:
+
+|# count|Language|
+|-------|--------|
+| #     | HTML   |
+| ##    | SQL    |
+| ###   | GraphQL|
+
+Unfortunately, changing the grammar file may fail the extension integrity check. See [Allow dynamic location of textmate grammar (vscode#68647)](https://github.com/microsoft/vscode/issues/68647) for details.
+
+Workaround: publish multiple extensions, each with different `#` count, for example: `Swift+SQL #`, `Swift+SQL ##` etc.

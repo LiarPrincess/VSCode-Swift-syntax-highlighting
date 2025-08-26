@@ -10,24 +10,22 @@ This extension adds LANGUAGE_NAME syntax highlighting in `String` literals.
 
 - Extension that overrides the `middleware.provideDocumentSemanticTokens` in the official Swift extension to remove the `tokenType` from `String` literals (other token types stay the same). This way the TextMate grammar (including our injection) takes over.
 
-## Known Issues
+## Q&A
 
-### Keyboard shortcut inserts a Swift comment
+### Why "comment" keyboard shortcut inserts a Swift comment?
 
-Pressing `⌘+/` (`Ctrl+/`) when writing LANGUAGE_NAME inserts a Swift comment: `//` instead of `README_COMMENT_EXAMPLE`. There is probably a way to avoid this using [Syntax Highlight Guide -> Injection grammars](https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide#injection-grammars).
-
-Workarounds:
+Pressing `⌘+/` (`Ctrl+/`) when writing LANGUAGE_NAME inserts a Swift comment (`//`) instead of `README_COMMENT_EXAMPLE`. Workarounds:
 - Type it manually
-- Add a custom snippet - `⚙️ -> Snippets -> LANGUAGE_NAME_LOWER`:
+- Add a custom snippet - `⚙️ -> Snippets -> swift`:
 
   ```json
-  "Comment": {
-    "prefix": "comment",
+  "LANGUAGE_NAME_comment": {
+    "prefix": "LANGUAGE_NAME_LOWER_comment",
     "body": "README_COMMENT_EXAMPLE"
   },
   ```
 
-### User defined `#` count
+### Can you select the `#` count?
 
 Ideally, we would have our own settings where users can select how `#` count corresponds to the highlighted language. For example:
 
@@ -37,7 +35,6 @@ Ideally, we would have our own settings where users can select how `#` count cor
 | ##    | SQL    |
 | ###   | GraphQL|
 
-Unfortunately, changing the grammar file may fail the extension integrity check.
-See [Allow dynamic location of textmate grammar (vscode#68647)](https://github.com/microsoft/vscode/issues/68647) for details.
+Unfortunately, changing the grammar file may fail the extension integrity check. See [Allow dynamic location of textmate grammar (vscode#68647)](https://github.com/microsoft/vscode/issues/68647) for details.
 
-Workaround: publish multiple extensions, each with different `#` count, for example: `Swift+LANGUAGE_NAME#`, `Swift+LANGUAGE_NAME##` etc.
+Workaround: publish multiple extensions, each with different `#` count, for example: `Swift+LANGUAGE_NAME #`, `Swift+LANGUAGE_NAME ##` etc.
