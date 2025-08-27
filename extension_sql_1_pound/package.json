@@ -1,0 +1,59 @@
+{
+  "name": "swift-sql",
+  "displayName": "Swift+SQL",
+  "description": "SQL syntax highlighting in String literals.",
+  "version": "0.0.1",
+  "icon": "icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LiarPrincess/VSCode-Swift-syntax-highlighting"
+  },
+  "sponsor": {
+    "url": "https://github.com/LiarPrincess"
+  },
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "swift",
+    "swiftlang",
+    "sql"
+  ],
+  "activationEvents": [
+    "onLanguage:swift",
+    "workspaceContains:Package.swift"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "grammars": [
+      {
+        "path": "./syntaxes/injection.tmLanguage.json",
+        "scopeName": "injection.sql.swift",
+        "injectTo": [
+          "source.swift"
+        ],
+        "embeddedLanguages": {
+  "source.sql": "sql"
+}
+      }
+    ]
+  },
+  "scripts": {
+    "clean": "rm -r out",
+    "build": "npm run clean; tsc",
+    "watch": "npm run clean; tsc -watch",
+    "vscode:prepublish": "npm run build",
+    "package": "npx vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.88.0",
+    "@types/node": "20.x",
+    "typescript": "^5.7.3"
+  }
+}
