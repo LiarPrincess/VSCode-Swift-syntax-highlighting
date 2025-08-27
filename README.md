@@ -4,13 +4,13 @@ VSCode extensions that add embedded language syntax highlighting to [Swift #Stri
 
 Adds SQL syntax highlighting to `#Strings`.
 
-![Swift+SQL example](TODO)
+![Swift+SQL example](extension_sql_1_pound/example.png)
 
 ## [Swift+SQL ##](TODO)
 
 Adds SQL syntax highlighting to `##Strings`.
 
-![Swift+SQL example](extension_sql/example.png)
+![Swift+SQL example](extension_sql_2_pounds/example.png)
 
 ## [Swift+HTML](TODO)
 

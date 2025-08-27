@@ -18,7 +18,7 @@
       "path": "extension_html"
     },
     {
-      "label": "Watch SQL",
+      "label": "Watch SQL 1 pound",
       "type": "npm",
       "script": "watch",
       "problemMatcher": "$tsc-watch",
@@ -29,7 +29,21 @@
       "group": {
         "kind": "build"
       },
-      "path": "extension_sql"
+      "path": "extension_sql_1_pound"
+    },
+    {
+      "label": "Watch SQL 2 pounds",
+      "type": "npm",
+      "script": "watch",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build"
+      },
+      "path": "extension_sql_2_pounds"
     }
   ]
 }

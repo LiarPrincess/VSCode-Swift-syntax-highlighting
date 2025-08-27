@@ -18,16 +18,28 @@
       "preLaunchTask": "Watch HTML"
     },
     {
-      "name": "Run SQL",
+      "name": "Run SQL #",
       "type": "extensionHost",
       "request": "launch",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}/extension_sql"
+        "--extensionDevelopmentPath=${workspaceFolder}/extension_sql_1_pound"
       ],
       "outFiles": [
-        "${workspaceFolder}/extension_sql/out/**/*.js"
+        "${workspaceFolder}/extension_sql_1_pound/out/**/*.js"
       ],
-      "preLaunchTask": "Watch SQL"
+      "preLaunchTask": "Watch SQL 1 pound"
+    },
+    {
+      "name": "Run SQL ##",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/extension_sql_2_pounds"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/extension_sql_2_pounds/out/**/*.js"
+      ],
+      "preLaunchTask": "Watch SQL 2 pounds"
     },
     {
       "name": "Generate extensions",
