@@ -38,7 +38,7 @@ private func layout(title: String, user: User?, body: String) -> String {
     </head>
     <body>
       Example body
-      \#0\#t\#n\#r\#"\#' <!-- " does not need to be escaped in """ string -->
+      \#0 \#t \#n \#r \#" \#' <!-- " does not need to be escaped in """ string -->
       \#u{E9} - e with accent
       \#u{65}\#u{301} - e + separate accent
       0214840

@@ -1,0 +1,10 @@
+{
+  // Cleaner example screenhots.
+  "editor.renderWhitespace": "none",
+  // Check how bracket colorization interacts with our syntax higlighting.
+  "editor.bracketPairColorization.enabled": true,
+  // Faster HTML typing.
+  "emmet.includeLanguages": {
+    "swift": "html"
+  }
+}
