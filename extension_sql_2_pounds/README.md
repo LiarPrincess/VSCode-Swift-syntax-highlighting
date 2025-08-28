@@ -2,7 +2,7 @@
 
 This extension adds SQL syntax highlighting in `String` literals.
 
-![example](https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql/example.png)
+![example](https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql_2_pounds/example.png)
 
 ## Extension content
 
@@ -34,9 +34,15 @@ Following the [SE-0200 -> Customized Escape Delimiters](https://github.com/swift
 
 TLDR; Use `\##(…)` instead of `\(…)`.
 
-### How does it prevent SQL Injection?
+### How does it prevent SQL injection?
 
-It doesn't. This extension only adds syntax highlighting, there is no Swift runtime component. Please read your database driver documentaition.
+It doesn't. This extension only adds syntax highlighting, there is no Swift runtime component. Please read your database driver documentation.
+
+### What is the difference between `Swift+SQL #` and `Swift+SQL ##` extensions?
+
+The number of `#` required to trigger syntax highlighting:
+- `Swift+SQL #` uses `#`
+- `Swift+SQL ##` uses `##`
 
 ### Why "comment" keyboard shortcut inserts a Swift comment?
 
@@ -50,12 +56,6 @@ Pressing `⌘+/` (`Ctrl+/`) when writing SQL inserts a Swift comment (`//`) inst
     "body": "-- $1"
   },
   ```
-
-### What is the difference between `Swift+SQL #` and `Swift+SQL ##` extensions?
-
-The number of `#` required to trigger syntax highlighting:
-- `Swift+SQL #` uses `#`
-- `Swift+SQL ##` uses `##`
 
 ### Can you select the `#` count?
 

@@ -20,12 +20,22 @@ const languages = [
   },
   {
     name: "SQL",
+    pounds: "#",
+    injectedGrammarName: "source.sql",
+    embeddedLanguages: {
+      "source.sql": "sql",
+    },
+    exampleImageURL: "https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql_1_pound/example.png",
+    commentExample: "-- $1",
+  },
+  {
+    name: "SQL",
     pounds: "##",
     injectedGrammarName: "source.sql",
     embeddedLanguages: {
       "source.sql": "sql",
     },
-    exampleImageURL: "https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql/example.png",
+    exampleImageURL: "https://raw.githubusercontent.com/LiarPrincess/VSCode-Swift-syntax-highlighting/refs/heads/main/extension_sql_2_pounds/example.png",
     commentExample: "-- $1",
   }
 ];

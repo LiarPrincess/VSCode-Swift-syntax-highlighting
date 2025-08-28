@@ -1,6 +1,6 @@
 {
-  "name": "swift-sql",
-  "displayName": "Swift+SQL",
+  "name": "swift-sql-2-pounds",
+  "displayName": "Swift+SQL ##",
   "description": "SQL syntax highlighting in String literals.",
   "version": "0.0.1",
   "icon": "icon.png",
